@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Google Map Demo</title>
+    <style>
+        #map{
+            height:300px;
+            width:100%;
+        }
+    </style>
+    
+</head>
+<body>
+    <h3> Google Maps </h3>
+    <div id="map" ></div>
+    
+    <script>
+    function initMap(){
+            var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 37.5483, lng: -121.9886},
+                    zoom: 4
+            });
+            google.maps.event.addListener(map,'click',function(event){
+                addMarker({coords:event.latLng});
+            });
+        var markers=[
+            {
+                coords:{lat: 37.5483, lng: -121.9886},
+                content:'<h4>Fremont, CA </h4>'
+            },
+            {
+                coords:{lat: 33.7490, lng: -84.3880},
+                content:'<h4>Atlanta, GA </h4>'
+            },
+            {
+                coords:{lat: 37.615223, lng:  -122.389977},
+                content:'<h4>San Francisco, CA </h4>'
+            },
+            {
+                coords:{lat: 34.0522, lng:  -118.2437},
+                content:'<h4>Los Angeles, CA </h4>'
+            },
+        ];
+        for(var i=0;i<markers.length;i++){
+            addMarker(markers[i]);
+        }
+      
+        // add marker
+        function addMarker(props){
+            var marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map
+            });  
+            if(props.content){
+                    var infoWindow =  new google.maps.InfoWindow({
+                    content:props.content
+            });
+            marker.addListener('click',function(){
+                    infoWindow.open(map,marker); 
+            });
+            }
+            
+        }
+    }
+        
+    </script>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvZzMtPBkLOdWjNege71wffSPFtAbYpIM&callback=initMap"
+    async defer></script>
+
+</body>
+</html>
